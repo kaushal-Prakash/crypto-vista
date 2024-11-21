@@ -4,13 +4,22 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import CurrencyCard from "@/components/currency card/CurrencyCard";
 
-const CoinList = () => {
-  const [coins, setCoins] = useState([]);
+//interface for the cryptocurrency data
+interface Cryptocurrency {
+  id: string;
+  name: string;
+  symbol: string;
+  current_price: number;
+  price_change_percentage_24h: number;
+}
+
+const CoinList: React.FC = () => {
+  const [coins, setCoins] = useState<Cryptocurrency[]>([]);
 
   useEffect(() => {
     const fetchCoins = async () => {
       try {
-        const response = await axios.get(
+        const response = await axios.get<Cryptocurrency[]>(
           "https://api.coingecko.com/api/v3/coins/markets",
           {
             params: {

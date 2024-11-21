@@ -20,10 +20,11 @@ const CurrencyCard: React.FC<CurrencyCardProps> = ({
       <div className="cursor-pointer max-w-sm p-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex items-center justify-around mb-6">
 
         <div>
-          <div>
+          <div className="flex gap-3 items-center">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              {name} ({symbol})
+              {name} 
             </h5>
+            ({symbol})
           </div>
           <div>
             <p className="mb-3 font-semibold text-gray-700 dark:text-gray-400">
