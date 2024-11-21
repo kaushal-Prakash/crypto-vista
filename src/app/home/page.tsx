@@ -38,7 +38,7 @@ const CoinList: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-center">
+    <div className="w-full min-h-screen flex justify-center items-center dark">
       <div>
         <ToastContainer />
         <h1>Cryptocurrency List</h1>
