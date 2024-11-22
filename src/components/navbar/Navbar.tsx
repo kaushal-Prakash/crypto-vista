@@ -22,11 +22,13 @@ function Navbar() {
 
   if (!mounted) return null;
 
+  
+
   return (
     <div className={`${theme === 'dark' ? 'dark' : ''}`}>
       {/* Navbar */}
       <nav
-        className={`fixed w-full top-0 left-0 z-50 rounded-b-lg bg-transparent backdrop-blur-2xl transition-all ${
+        className={`fixed w-full top-0 left-0 z-30 rounded-b-lg bg-transparent backdrop-blur-2xl transition-all ${
           theme === 'dark'
             ? 'bg-gray-900 text-white shadow-lg'
             : 'bg-white text-gray-900 shadow-md'
