@@ -33,7 +33,7 @@ export default function Home() {
         style={{ textShadow: "5px 2px 10px black" }}
       >
         <h1 className="text-5xl md:text-7xl font-bold mb-6">
-          Welcome to CryptoVista
+          Welcome to <span className="text-blue-500">Crypto</span>Vista
         </h1>
         <p className="text-xl md:text-2xl font-semibold max-w-3xl mx-auto mb-8">
           Your ultimate destination for tracking cryptocurrencies, analyzing
@@ -59,7 +59,7 @@ export default function Home() {
       >
         <div>
           <h2 className="text-4xl font-bold text-center mb-12">
-            Why CryptoVista?
+            Why <span className="text-blue-500">Crypto</span>Vista?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Feature 1 */}
