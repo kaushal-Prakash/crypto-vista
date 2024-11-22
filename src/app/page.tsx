@@ -19,7 +19,7 @@ export default function Home() {
 
   return (
     <div
-      className={`min-h-screen w-full transition-colors duration-300 bg-fit bg-center  ${
+      className={`min-h-screen w-full bg-cover bg-center transition-colors duration-300 bg-fit  ${
         theme === "dark"
           ? "bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 text-white"
           : "bg-gradient-to-br from-gray-100 via-purple-100 to-blue-100 text-gray-900"
