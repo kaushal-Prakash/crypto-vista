@@ -57,7 +57,7 @@ const CoinList: React.FC = () => {
       className="w-full min-h-screen flex justify-center items-center bg-fixed backdrop-blur-sm bg-cover"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <div className="absolute inset-0 backdrop-blur-sm"></div>
+      <div className="absolute w-full min-h-screen inset-0 backdrop-blur-sm"></div>
       <div className="z-5 w-full p-5 flex flex-col items-center justify-center min-h-screen">
         <ToastContainer />
         {coins.length === 0 ? (
