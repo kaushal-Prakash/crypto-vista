@@ -36,7 +36,7 @@ function Navbar() {
       >
         <div className="container mx-auto flex justify-between items-center p-3">
           {/* Logo */}
-          <div className="text-2xl font-bold">CryptoVista</div>
+          <div className="text-2xl font-bold px-4">CryptoVista</div>
 
           {/* Right Section - Theme Toggle, Hamburger Menu & Menu Items */}
           <div className="flex items-center ml-auto space-x-4">
