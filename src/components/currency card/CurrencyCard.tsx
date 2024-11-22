@@ -66,7 +66,7 @@ const CurrencyCard: React.FC<CurrencyCardProps> = ({
             {/* Price and 24hr Change */}
             <div className="mt-2">
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                Current Price:{" "}
+                Current Price: {" "}
                 <span className="text-gray-900 dark:text-white">
                   ${currentPrice.toFixed(2)}
                 </span>

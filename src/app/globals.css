@@ -71,28 +71,7 @@ body{
 
 /* scroll bar */
 
-/* Custom Scrollbar for Modern Browsers */
 ::-webkit-scrollbar {
-  width: 8px; /* Width of the scrollbar */
-  height: 8px; /* Height of the scrollbar */
+  width: 0px; /* Width of the scrollbar */
 }
 
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1); /* Track background */
-  border-radius: 4px; /* Rounded corners for the track */
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #6c63ff, #d4418e); /* Gradient thumb */
-  border-radius: 4px; /* Rounded corners for the thumb */
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #5146d0, #a63472); /* Hover effect */
-}
-
-/* For Firefox */
-* {
-  scrollbar-width: thin; /* Thin scrollbar */
-  scrollbar-color: #6c63ff rgba(0, 0, 0, 0.1); /* Thumb and track colors */
-}
