@@ -41,15 +41,15 @@ const CoinList: React.FC = () => {
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center bg-fixed backdrop-blur-sm bg-cover"
-    style={{backgroundImage:"url('/bg/2.jpg')"}}
+    style={{backgroundImage:"url('/bg/home.jpg')"}}
     >
-      <div className="absolute inset-0 backdrop-blur-md"></div>
+      <div className="absolute inset-0 backdrop-blur-sm"></div>
       <div className="z-5">
         <ToastContainer />
         {coins.length === 0 ? (
           <Loading />
         ) : (
-          <div className="grid w-full min-h-screen grid-cols-1 sm:grid-cols-2 md:grid-cols-3 sm:gap-3 md:gap-5 lg:gap-10 mt-28">
+          <div className="grid w-full min-h-screen grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-3 md:gap-5 lg:gap-10 mt-28 p-5">
             {coins.map((coin) => (
               <CurrencyCard
                 id={coin.id}
