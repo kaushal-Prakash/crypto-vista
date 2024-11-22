@@ -26,7 +26,7 @@ export default function Home() {
       }`}
       style={{ backgroundImage: "url('/landing/bg.jpg')" }}
     >
-      <div className="absolute inset-0 backdrop-blur-sm"></div>
+      <div className="absolute w-full min-h-screen inset-0 backdrop-blur-sm"></div>
       {/* Hero Section */}
       <section
         className="relative flex flex-col min-h-screen items-center justify-center text-center py-20 px-4 text-white"
