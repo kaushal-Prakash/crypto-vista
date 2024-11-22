@@ -23,7 +23,7 @@ const CurrencyCard: React.FC<CurrencyCardProps> = ({
 }) => {
   return (
     <Link href={`/home/${id}`}>
-      <div className="cursor-pointer max-w-sm p-3 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 flex items-center bg-transparent backdrop-blur-md justify-around mb-6 hover:bg-gradient-to-br hover:from-purple-100 hover:to-blue-300 hover:scale-105 transition-transform duration-300">
+      <div className="cursor-pointer max-w-sm p-3 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 flex items-center bg-transparent backdrop-blur-md justify-around mb-6 hover:bg-gradient-to-br hover:from-purple-100 hover:to-blue-300 hover:scale-105 transition-transform duration-200 ease-linear">
         <div>
           <Image src={img} height={50} width={50} alt="logo" />
         </div>
