@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster, toast } from "react-hot-toast";
 import CurrencyCard from "@/components/currency card/CurrencyCard";
 import Loading from "@/app/Loading";
 import {
@@ -60,7 +60,7 @@ const SearchPage: React.FC = () => {
           }));
           setCoins(searchResults);
         } catch (error) {
-          toast("Error fetching search results!");
+          toast.error("Error fetching search results!");
           console.error(error);
         } finally {
           setLoading(false);
@@ -95,7 +95,6 @@ const SearchPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10">
       <div className="container mx-auto px-4">
-        <ToastContainer />
         <div className="flex justify-center mb-8">
           <input
             type="text"
@@ -107,15 +106,19 @@ const SearchPage: React.FC = () => {
         </div>
 
         {loading ? (
-          <div className="flex justify-center">
+            <div className="flex justify-center">
             <Loading />
           </div>
         ) : coins.length === 0 ? (
-          <p className="text-center text-gray-600 dark:text-gray-400">
+            <p className="text-center text-gray-600 dark:text-gray-400">
             No results found. Start typing to search for cryptocurrencies.
           </p>
         ) : (
-          <>
+            <>
+            <Toaster
+               toastOptions={{
+                className: 'mt-24',
+            }}/>
             <div className="flex justify-end mb-4">
               <Select onValueChange={(value) => setSortOrder(value)}>
                 <SelectTrigger className="w-full sm:w-[180px]">

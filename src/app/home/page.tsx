@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useTheme } from "next-themes";
-import { ToastContainer, toast } from "react-toastify";
+import toast, { Toaster } from 'react-hot-toast';
 import CurrencyCard from "@/components/currency card/CurrencyCard";
 import Loading from "@/app/Loading";
 import {
@@ -21,7 +21,7 @@ interface Cryptocurrency {
   image: string;
   current_price: number;
   price_change_percentage_24h: number;
-  currency:string;
+  currency: string;
 }
 
 interface currency {
@@ -34,7 +34,15 @@ const CoinList: React.FC = () => {
   const [currencies, setCurrencies] = useState<currency[]>([]);
   const [sortOrder, setSortOrder] = useState<string | null>(null);
   const [selectedCurrency, setSelectedCurrency] = useState<string>("usd");
+  const [favorites, setFavorites] = useState<string[]>([]);
   const { theme } = useTheme();
+  useEffect(() => {
+    // Load favorites from localStorage on component mount
+    const savedFavorites = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
+    setFavorites(savedFavorites);
+  }, []);
 
   useEffect(() => {
     const fetchCoins = async () => {
@@ -42,21 +50,18 @@ const CoinList: React.FC = () => {
         const response = await axios.get<Cryptocurrency[]>(
           "https://api.coingecko.com/api/v3/coins/markets",
           {
-            params: {
-              vs_currency: selectedCurrency,
-              order: "market_cap_desc",
-            },
+            params: { vs_currency: selectedCurrency, order: "market_cap_desc" },
           }
         );
         setCoins(response.data);
       } catch (error) {
         toast("Error fetching the coin list");
-        console.error(error);
+        console.log(error);
       }
     };
 
     fetchCoins();
-  }, [selectedCurrency]); // Re-fetch whenever selectedCurrency changes
+  }, [selectedCurrency]);
 
   useEffect(() => {
     const fetchCurrencies = async () => {
@@ -71,13 +76,26 @@ const CoinList: React.FC = () => {
         setCurrencies(formattedCurrencies);
       } catch (error) {
         toast("Error fetching currencies!");
-        console.error(error);
+        console.log(error);
       }
     };
 
     fetchCurrencies();
   }, []);
 
+  const toggleFavorite = (id: string) => {
+    let updatedFavorites = [...favorites];
+    if (favorites.includes(id)) {
+      updatedFavorites = updatedFavorites.filter((favId) => favId !== id);
+      toast.success("Removed coin from favorites!");
+    } else {
+      updatedFavorites.push(id);
+      toast.success("Added coin to favorites!");
+    }
+    setFavorites(updatedFavorites);
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  };
+  
   const sortedCoins = React.useMemo(() => {
     if (!sortOrder) return coins;
 
@@ -110,14 +128,19 @@ const CoinList: React.FC = () => {
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="absolute w-full min-h-screen inset-0 backdrop-blur-sm"></div>
-      <div className="z-5 w-full p-5 flex flex-col items-center justify-center min-h-screen">
-        <ToastContainer />
+      <div className="z-5 relative w-full p-5 flex flex-col items-center justify-center min-h-screen">
         {coins.length === 0 ? (
           <div className="flex justify-center items-center min-h-screen">
             <Loading />
           </div>
         ) : (
           <>
+            <div className="z-50">
+              <Toaster
+               toastOptions={{
+                className: 'mt-24',
+              }}/>
+            </div>
             <div className="mt-16 sm:mt-24 z-10 relative flex flex-wrap gap-5 justify-center w-full">
               <Select onValueChange={(value) => setSelectedCurrency(value)}>
                 <SelectTrigger className="w-full sm:w-[180px]">
@@ -171,6 +194,8 @@ const CoinList: React.FC = () => {
                     currentPrice={coin.current_price}
                     priceChange24hr={coin.price_change_percentage_24h}
                     currency={selectedCurrency}
+                    isFavorite={favorites.includes(coin.id)}
+                    onFavoriteToggle={() => toggleFavorite(coin.id)}
                   />
                 ))}
               </div>

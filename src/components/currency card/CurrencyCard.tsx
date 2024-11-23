@@ -1,8 +1,9 @@
 'use client';
 
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { GoHeartFill } from "react-icons/go";
+import { GoHeartFill, GoHeart } from "react-icons/go";
 import CardLabel from "../card label/CardLabel";
 
 interface CurrencyCardProps {
@@ -12,7 +13,9 @@ interface CurrencyCardProps {
   currentPrice: number;
   priceChange24hr: number;
   img: string;
-  currency:string;
+  currency: string;
+  isFavorite?: boolean;
+  onFavoriteToggle?: (id: string) => void;
 }
 
 const CurrencyCard: React.FC<CurrencyCardProps> = ({
@@ -22,13 +25,23 @@ const CurrencyCard: React.FC<CurrencyCardProps> = ({
   currentPrice,
   priceChange24hr,
   img,
-  currency
+  currency,
+  isFavorite = false,
+  onFavoriteToggle,
 }) => {
+  const [favorite, setFavorite] = useState(isFavorite);
+
+  useEffect(() => {
+    setFavorite(isFavorite); // Update local state when parent updates
+  }, [isFavorite]);
+
   const handleHeartClick = (e: React.MouseEvent) => {
-    // Prevent default and propagation for the heart icon click
     e.preventDefault();
     e.stopPropagation();
-    console.log("Heart clicked!");
+    setFavorite(!favorite);
+    if (onFavoriteToggle) {
+      onFavoriteToggle(id); // Notify parent to update favorites in localStorage
+    }
   };
 
   return (
@@ -38,7 +51,11 @@ const CurrencyCard: React.FC<CurrencyCardProps> = ({
         onClick={handleHeartClick}
         className="p-2 rounded-full absolute top-3 right-3 transition hover:text-red-600 text-slate-500"
       >
-        <GoHeartFill size={24} />
+        {favorite ? (
+          <GoHeartFill size={24} className="text-red-600" />
+        ) : (
+          <GoHeart size={24} />
+        )}
       </button>
 
       {/* Main Content */}
@@ -68,9 +85,9 @@ const CurrencyCard: React.FC<CurrencyCardProps> = ({
             {/* Price and 24hr Change */}
             <div className="mt-2">
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                Current Price: {" "}
+                Current Price:{" "}
                 <span className="text-gray-900 dark:text-white">
-                  {currentPrice.toFixed(2)}{" "}{currency}
+                  {currentPrice.toFixed(2)} {currency}
                 </span>
               </p>
               <p

@@ -1,6 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { FiMenu, FiX, FiMoon, FiSun, FiSearch } from 'react-icons/fi';
 
@@ -94,24 +95,30 @@ function Navbar() {
                 isMenuOpen ? 'block' : 'hidden'
               } md:static md:ml-4`}
             >
-              <a
-                href="#about"
+              <Link
+                href="/home"
+                className="py-2 px-4 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                Home
+              </Link>
+              <Link
+                href="/about"
                 className="py-2 px-4 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 About
-              </a>
-              <a
-                href="#faqs"
+              </Link>
+              <Link
+                href="/faqs"
                 className="py-2 px-4 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
+              > 
                 FAQs
-              </a>
-              <a
-                href="#favs"
+              </Link>
+              <Link
+                href="/favorite"
                 className="py-2 px-4 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 Favs
-              </a>
+              </Link>
             </div>
           </div>
         </div>
