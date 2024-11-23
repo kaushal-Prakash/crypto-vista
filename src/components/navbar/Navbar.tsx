@@ -61,7 +61,7 @@ function Navbar() {
 
             {/* Menu Links */}
             <div
-              className={`absolute top-full right-0 bg-opacity-80 backdrop-blur-lg ${
+              className={`absolute top-full right-0 backdrop-blur-lg ${
                 theme === 'dark' ? 'bg-gray-800' : 'bg-white'
               } rounded-lg shadow-lg p-4 md:flex md:space-x-8 md:bg-transparent md:shadow-none ${
                 isMenuOpen ? 'block' : 'hidden'

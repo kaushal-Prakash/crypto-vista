@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar/Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/footer/Footer";
+import RecoilContextProvider from "./RecoilContextProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -19,9 +20,9 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "CryptoVista",
   description: "A crypto details platform",
-  icons:{
-    icon:"url('/logo.png')",
-  }
+  icons: {
+    icon: "url('/logo.png')",
+  },
 };
 
 export default function RootLayout({
@@ -29,22 +30,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navbar />
-          {children}
-          <Footer />
-        </ThemeProvider>
+        <RecoilContextProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Navbar />
+            {children}
+            <Footer />
+          </ThemeProvider>
+        </RecoilContextProvider>
       </body>
     </html>
   );
