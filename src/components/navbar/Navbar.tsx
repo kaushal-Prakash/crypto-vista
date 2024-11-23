@@ -65,6 +65,9 @@ function Navbar() {
                   theme === 'dark' ? 'border-gray-600' : 'border-gray-300'
                 }`}
               />
+              <button type="submit" className="p-2 ml-2 rounded-md bg-blue-500 text-white">
+              <FiSearch />
+            </button>
             </div>
 
             {/* Theme Toggle Button */}
@@ -129,6 +132,9 @@ function Navbar() {
                 theme === 'dark' ? 'border-gray-600' : 'border-gray-300'
               }`}
             />
+            <button type="submit" className="p-2 ml-2 rounded-md bg-blue-500 text-white">
+              <FiSearch />
+            </button>
           </div>
         </div>
       </div>
