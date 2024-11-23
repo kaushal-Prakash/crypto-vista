@@ -1,10 +1,34 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 import { useTheme } from 'next-themes';
 
 function Footer() {
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Load theme from local storage on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else if (theme === 'system') {
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      setTheme(systemTheme);
+      localStorage.setItem('theme', systemTheme);
+    }
+    setMounted(true);
+  }, [setTheme, theme]);
+
+  // Save theme to local storage when it changes
+  useEffect(() => {
+    if (theme) {
+      localStorage.setItem('theme', theme);
+    }
+  }, [theme]);
+
+  if (!mounted) return null;
 
   return (
     <footer
@@ -23,7 +47,7 @@ function Footer() {
         {/* Social Media Links */}
         <div className="flex space-x-6 my-4 sm:my-0 font-semibold">
           <a
-            href="https://www.linkedin.com"
+            href="https://www.linkedin.com/in/devkaushalprakash/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xl hover:text-blue-500"
@@ -31,7 +55,7 @@ function Footer() {
             <FiLinkedin size={24}/>
           </a>
           <a
-            href="https://github.com"
+            href="https://github.com/kaushal-Prakash"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xl hover:text-blue-900"
@@ -39,7 +63,7 @@ function Footer() {
             <FiGithub size={24} />
           </a>
           <a
-            href="mailto:youremail@example.com"
+            href="mailto:savagegamer1289@gmail.com"
             className="text-xl hover:text-blue-90"
           >
             <FiMail size={24} />
