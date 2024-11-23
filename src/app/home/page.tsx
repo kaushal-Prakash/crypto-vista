@@ -1,8 +1,10 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useTheme } from "next-themes";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import CurrencyCard from "@/components/currency card/CurrencyCard";
 import Loading from "@/app/Loading";
 import {
@@ -35,7 +37,7 @@ const CoinList: React.FC = () => {
   const [sortOrder, setSortOrder] = useState<string | null>(null);
   const [selectedCurrency, setSelectedCurrency] = useState<string>("usd");
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>(""); // New state for search query
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const { theme } = useTheme();
   const [backgroundImage, setBackgroundImage] =
     useState<string>("/bg/home-dark.jpg");
@@ -63,7 +65,6 @@ const CoinList: React.FC = () => {
           }
         );
         setCoins(response.data);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         toast.error("Error fetching the coin list");
       }
@@ -83,7 +84,6 @@ const CoinList: React.FC = () => {
           value: currency,
         }));
         setCurrencies(formattedCurrencies);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         toast.error("Error fetching currencies!");
       }
@@ -108,14 +108,12 @@ const CoinList: React.FC = () => {
   const sortedCoins = React.useMemo(() => {
     let filteredCoins = coins;
 
-    // Filter coins based on search query
     if (searchQuery.trim() !== "") {
       filteredCoins = coins.filter((coin) =>
         coin.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
-    // Sort coins based on selected sortOrder
     if (!sortOrder) return filteredCoins;
 
     return [...filteredCoins].sort((a, b) => {
@@ -144,6 +142,7 @@ const CoinList: React.FC = () => {
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="absolute w-full min-h-screen inset-0 backdrop-blur-sm"></div>
+  
       <div className="z-5 relative w-full p-5 flex flex-col items-center justify-center min-h-screen">
         {coins.length === 0 ? (
           <div className="flex justify-center items-center min-h-screen">
@@ -151,9 +150,6 @@ const CoinList: React.FC = () => {
           </div>
         ) : (
           <>
-            <div className="z-50">
-              <Toaster toastOptions={{ className: "mt-24" }} />
-            </div>
             <div className="mt-16 sm:mt-24 flex flex-col justify-between z-10 relative w-full max-w-screen-2xl mx-auto">
               <div className="w-full mb-2 h-fit">
                 <div className="w-full flex justify-center">

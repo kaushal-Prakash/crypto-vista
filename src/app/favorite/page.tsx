@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from "react";
 import CurrencyCard from "@/components/currency card/CurrencyCard";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 import { useTheme } from "next-themes";
 import Image from "next/image";
+import "react-toastify/dist/ReactToastify.css";
 
 const Favorites: React.FC = () => {
   interface Cryptocurrency {
@@ -39,7 +40,7 @@ const Favorites: React.FC = () => {
   useEffect(() => {
     const fetchCoins = async () => {
       try {
-        const response = await axios.get<Cryptocurrency[]>(
+        const response = await axios.get<Cryptocurrency[]>( 
           "https://api.coingecko.com/api/v3/coins/markets",
           {
             params: {
@@ -61,10 +62,10 @@ const Favorites: React.FC = () => {
     let updatedFavorites = [...favorites];
     if (favorites.includes(id)) {
       updatedFavorites = updatedFavorites.filter((favId) => favId !== id);
-      toast.success("Removed coin from favorites!");
+      toast.success("Removed coin from favorites!"); 
     } else {
       updatedFavorites.push(id);
-      toast.success("Added coin to favorites!");
+      toast.success("Added coin to favorites!"); 
     }
     setFavorites(updatedFavorites);
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
@@ -95,19 +96,12 @@ const Favorites: React.FC = () => {
               <br />
               Start adding your favorite coins and make them rich!
             </p>
-            
           </div>
         ) : (
           <>
-            <div>
-              <Toaster
-                toastOptions={{
-                  className: "mt-24",
-                }}
-              />
-            </div>
+            
             <div className="text-center my-8 mt-24">
-              <Image src="/fav/nothing.jpg" alt="nothing img" />
+              <Image src="/fav/nothing.jpg" alt="nothing img" layout="fill" />
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-500 to-black dark:from-blue-500 dark:to-white bg-clip-text text-transparent">
                 Your Favorite Currencies!!
               </h1>
