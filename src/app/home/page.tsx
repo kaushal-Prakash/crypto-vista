@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/select";
 
 interface Cryptocurrency {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  market_cap: any;
   id: string;
   name: string;
   symbol: string;
@@ -22,8 +24,15 @@ interface Cryptocurrency {
   price_change_percentage_24h: number;
 }
 
+interface currency {
+  label: string;
+  value: string;
+}
+
 const CoinList: React.FC = () => {
   const [coins, setCoins] = useState<Cryptocurrency[]>([]);
+  const [currencies, setCurrencies] = useState<currency[]>([]);
+  const [sortOrder, setSortOrder] = useState<string | null>(null);
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -34,21 +43,65 @@ const CoinList: React.FC = () => {
           {
             params: {
               vs_currency: "usd",
+              order: "market_cap_desc", // Default sorting by market cap
             },
           }
         );
         setCoins(response.data);
-        console.log(response.data);
       } catch (error) {
         toast("Error fetching the coin list");
         console.log(error);
       }
     };
+    
 
     fetchCoins();
   }, []);
 
-  // Determine background image based on the theme
+  useEffect(() => {
+    const fetchCurrencies = async () => {
+      try {
+        const response = await axios.get<string[]>(
+          "https://api.coingecko.com/api/v3/simple/supported_vs_currencies"
+        );
+        const formattedCurrencies = response.data.map((currency) => ({
+          label: currency.toUpperCase(),
+          value: currency,
+        }));
+        setCurrencies(formattedCurrencies);
+      } catch (error) {
+        toast("Error fetching currencies!!");
+        console.log(error);
+      }
+    };
+
+    fetchCurrencies();
+  }, []);
+
+  const sortedCoins = React.useMemo(() => {
+    if (!sortOrder) return coins;
+  
+    return [...coins].sort((a, b) => {
+      switch (sortOrder) {
+        case "market-cap-asc":
+          return a.market_cap - b.market_cap;
+        case "market-cap-desc":
+          return b.market_cap - a.market_cap;
+        case "percentage-change-asc":
+          return a.price_change_percentage_24h - b.price_change_percentage_24h;
+        case "percentage-change-desc":
+          return b.price_change_percentage_24h - a.price_change_percentage_24h;
+        case "low-to-high":
+          return a.current_price - b.current_price;
+        case "high-to-low":
+          return b.current_price - a.current_price;
+        default:
+          return 0;
+      }
+    });
+  }, [coins, sortOrder]);
+  
+
   const backgroundImage =
     theme === "dark" ? "/bg/home-dark.jpg" : "/bg/home-light.jpg";
 
@@ -73,18 +126,37 @@ const CoinList: React.FC = () => {
                   <SelectValue placeholder="Currency" />
                 </SelectTrigger>
                 <SelectContent className="z-20 max-h-60 overflow-auto">
-                  <SelectItem value="usd">USD</SelectItem>
-                  <SelectItem value="inr">INR</SelectItem>
-                  <SelectItem value="eur">EUR</SelectItem>
+                  {currencies.map((currency) => (
+                    <SelectItem key={currency.value} value={currency.value}>
+                      {currency.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
-              <Select>
+
+              <Select onValueChange={(value) => setSortOrder(value)}>
                 <SelectTrigger className="w-full sm:w-[180px]">
                   <SelectValue placeholder="Sort" />
                 </SelectTrigger>
                 <SelectContent className="z-20 max-h-60 overflow-auto">
-                  <SelectItem value="usd">Low to high</SelectItem>
-                  <SelectItem value="inr">High to low</SelectItem>
+                  <SelectItem value="low-to-high">
+                    Price: Low to High
+                  </SelectItem>
+                  <SelectItem value="high-to-low">
+                    Price: High to Low
+                  </SelectItem>
+                  <SelectItem value="market-cap-asc">
+                    Market Cap: Low to High
+                  </SelectItem>
+                  <SelectItem value="market-cap-desc">
+                    Market Cap: High to Low
+                  </SelectItem>
+                  <SelectItem value="percentage-change-asc">
+                    % Change: Low to High
+                  </SelectItem>
+                  <SelectItem value="percentage-change-desc">
+                    % Change: High to Low
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -92,7 +164,7 @@ const CoinList: React.FC = () => {
             {/* Coin Grid */}
             <div className="w-full flex justify-center items-center">
               <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-3 md:gap-5 lg:gap-10 p-5 max-w-screen-2xl mx-auto">
-                {coins.map((coin) => (
+                {sortedCoins.map((coin) => (
                   <CurrencyCard
                     id={coin.id}
                     img={coin.image}
