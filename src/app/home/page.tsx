@@ -36,6 +36,12 @@ const CoinList: React.FC = () => {
   const [selectedCurrency, setSelectedCurrency] = useState<string>("usd");
   const [favorites, setFavorites] = useState<string[]>([]);
   const { theme } = useTheme();
+  const [backgroundImage,setBackgroundImage] = useState<string>("/bg/home-dark.jpg");
+
+  useEffect(()=>{
+    setBackgroundImage(theme === 'light'? "/bg/home-light.jpg":"/bg/home-dark.jpg");
+  },[theme])
+
   useEffect(() => {
     // Load favorites from localStorage on component mount
     const savedFavorites = JSON.parse(
@@ -118,9 +124,6 @@ const CoinList: React.FC = () => {
       }
     });
   }, [coins, sortOrder]);
-
-  const backgroundImage =
-    theme === "dark" ? "/bg/home-dark.jpg" : "/bg/home-light.jpg";
 
   return (
     <div
