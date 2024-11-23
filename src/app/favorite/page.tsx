@@ -1,9 +1,10 @@
-"use client";
+'use client'
 import React, { useEffect, useState } from "react";
 import CurrencyCard from "@/components/currency card/CurrencyCard";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useTheme } from "next-themes";
+import Image from "next/image";
 
 const Favorites: React.FC = () => {
   interface Cryptocurrency {
@@ -81,9 +82,20 @@ const Favorites: React.FC = () => {
       <div className="relative z-20 w-full">
         {coins.length === 0 ? (
           <div className="grid place-content-center w-full h-screen">
-            <p className="text-xl font-semibold text-gray-700 dark:text-white mt-32">
-              No favorite coins added yet!
+            {/* Funny Text Styling */}
+            <Image
+              src="/fav/nothing.png"
+              alt="Nothing to show"
+              width={250}
+              height={250}
+              className="mt-8 mx-auto"
+            />
+            <p className="text-2xl font-semibold text-gray-800 dark:text-white mt-16 sm:mt-32 text-center">
+              Oops! Looks like you're on a coin diet. No favorites yet! 
+              <br />
+              Start adding your favorite coins and make them rich!
             </p>
+            
           </div>
         ) : (
           <>
@@ -95,28 +107,29 @@ const Favorites: React.FC = () => {
               />
             </div>
             <div className="text-center my-8 mt-24">
+              <Image src="/fav/nothing.jpg" alt="nothing img" />
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-500 to-black dark:from-blue-500 dark:to-white bg-clip-text text-transparent">
                 Your Favorite Currencies!!
               </h1>
             </div>
 
             <div className="w-full flex justify-center items-center">
-            <div className="grid p-1 w-full max-w-screen-2xl grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-3 md:gap-5 lg:gap-10 justify-items-center">
-              {coins.map((coin) => (
-                <CurrencyCard
-                  isFavorite={favorites.includes(coin.id)}
-                  key={coin.id}
-                  id={coin.id}
-                  img={coin.image}
-                  name={coin.name}
-                  symbol={coin.symbol}
-                  currentPrice={coin.current_price}
-                  priceChange24hr={coin.price_change_percentage_24h}
-                  currency="usd"
-                  onFavoriteToggle={() => toggleFavorite(coin.id)}
-                />
-              ))}
-            </div>
+              <div className="grid p-1 w-full max-w-screen-2xl grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-3 md:gap-5 lg:gap-10 justify-items-center">
+                {coins.map((coin) => (
+                  <CurrencyCard
+                    isFavorite={favorites.includes(coin.id)}
+                    key={coin.id}
+                    id={coin.id}
+                    img={coin.image}
+                    name={coin.name}
+                    symbol={coin.symbol}
+                    currentPrice={coin.current_price}
+                    priceChange24hr={coin.price_change_percentage_24h}
+                    currency="usd"
+                    onFavoriteToggle={() => toggleFavorite(coin.id)}
+                  />
+                ))}
+              </div>
             </div>
           </>
         )}
