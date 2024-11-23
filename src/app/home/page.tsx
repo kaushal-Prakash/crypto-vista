@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useTheme } from "next-themes";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import CurrencyCard from "@/components/currency card/CurrencyCard";
 import Loading from "@/app/Loading";
 import {
@@ -24,26 +24,29 @@ interface Cryptocurrency {
   currency: string;
 }
 
-interface currency {
+interface Currency {
   label: string;
   value: string;
 }
 
 const CoinList: React.FC = () => {
   const [coins, setCoins] = useState<Cryptocurrency[]>([]);
-  const [currencies, setCurrencies] = useState<currency[]>([]);
+  const [currencies, setCurrencies] = useState<Currency[]>([]);
   const [sortOrder, setSortOrder] = useState<string | null>(null);
   const [selectedCurrency, setSelectedCurrency] = useState<string>("usd");
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>(""); // New state for search query
   const { theme } = useTheme();
-  const [backgroundImage,setBackgroundImage] = useState<string>("/bg/home-dark.jpg");
-
-  useEffect(()=>{
-    setBackgroundImage(theme === 'light'? "/bg/home-light.jpg":"/bg/home-dark.jpg");
-  },[theme])
+  const [backgroundImage, setBackgroundImage] =
+    useState<string>("/bg/home-dark.jpg");
 
   useEffect(() => {
-    // Load favorites from localStorage on component mount
+    setBackgroundImage(
+      theme === "light" ? "/bg/home-light.jpg" : "/bg/home-dark.jpg"
+    );
+  }, [theme]);
+
+  useEffect(() => {
     const savedFavorites = JSON.parse(
       localStorage.getItem("favorites") || "[]"
     );
@@ -60,9 +63,9 @@ const CoinList: React.FC = () => {
           }
         );
         setCoins(response.data);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
-        toast("Error fetching the coin list");
-        console.log(error);
+        toast.error("Error fetching the coin list");
       }
     };
 
@@ -80,9 +83,9 @@ const CoinList: React.FC = () => {
           value: currency,
         }));
         setCurrencies(formattedCurrencies);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
-        toast("Error fetching currencies!");
-        console.log(error);
+        toast.error("Error fetching currencies!");
       }
     };
 
@@ -101,11 +104,21 @@ const CoinList: React.FC = () => {
     setFavorites(updatedFavorites);
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   };
-  
-  const sortedCoins = React.useMemo(() => {
-    if (!sortOrder) return coins;
 
-    return [...coins].sort((a, b) => {
+  const sortedCoins = React.useMemo(() => {
+    let filteredCoins = coins;
+
+    // Filter coins based on search query
+    if (searchQuery.trim() !== "") {
+      filteredCoins = coins.filter((coin) =>
+        coin.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Sort coins based on selected sortOrder
+    if (!sortOrder) return filteredCoins;
+
+    return [...filteredCoins].sort((a, b) => {
       switch (sortOrder) {
         case "market-cap-asc":
           return a.market_cap - b.market_cap;
@@ -123,7 +136,7 @@ const CoinList: React.FC = () => {
           return 0;
       }
     });
-  }, [coins, sortOrder]);
+  }, [coins, sortOrder, searchQuery]);
 
   return (
     <div
@@ -139,54 +152,81 @@ const CoinList: React.FC = () => {
         ) : (
           <>
             <div className="z-50">
-              <Toaster
-               toastOptions={{
-                className: 'mt-24',
-              }}/>
+              <Toaster toastOptions={{ className: "mt-24" }} />
             </div>
-            <div className="mt-16 sm:mt-24 z-10 relative flex flex-wrap gap-5 justify-center w-full">
-              <Select onValueChange={(value) => setSelectedCurrency(value)}>
-                <SelectTrigger className="w-full sm:w-[180px]">
-                  <SelectValue placeholder="Currency" />
-                </SelectTrigger>
-                <SelectContent className="z-20 max-h-60 overflow-auto">
-                  {currencies.map((currency) => (
-                    <SelectItem key={currency.value} value={currency.value}>
-                      {currency.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <div className="mt-16 sm:mt-24 flex flex-col justify-between z-10 relative w-full max-w-screen-2xl mx-auto">
+              <div className="w-full mb-2 h-fit">
+                <div className="w-full flex justify-center">
+                  <h1 className="text-3xl sm:text-5xl mb-5 lg:text-6xl font-extrabold bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-transparent bg-clip-text">
+                    Crypto Currencies !
+                  </h1>
+                </div>
 
-              <Select onValueChange={(value) => setSortOrder(value)}>
-                <SelectTrigger className="w-full sm:w-[180px]">
-                  <SelectValue placeholder="Sort" />
-                </SelectTrigger>
-                <SelectContent className="z-20 max-h-60 overflow-auto">
-                  <SelectItem value="low-to-high">
-                    Price: Low to High
-                  </SelectItem>
-                  <SelectItem value="high-to-low">
-                    Price: High to Low
-                  </SelectItem>
-                  <SelectItem value="market-cap-asc">
-                    Market Cap: Low to High
-                  </SelectItem>
-                  <SelectItem value="market-cap-desc">
-                    Market Cap: High to Low
-                  </SelectItem>
-                  <SelectItem value="percentage-change-asc">
-                    % Change: Low to High
-                  </SelectItem>
-                  <SelectItem value="percentage-change-desc">
-                    % Change: High to Low
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+                <div className="w-full max-w-screen-2xl mx-auto z-10 relative">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 w-full">
+                    {/* Left Section: Search Box */}
+                    <input
+                      type="text"
+                      placeholder="Search Coins"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full sm:w-1/3 px-4 py-2 border-blue-700 shadow-md rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
 
-            <div className="w-full flex justify-center items-center">
-              <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-3 md:gap-5 lg:gap-10 p-5 max-w-screen-2xl mx-auto">
+                    {/* Right Section: Currency and Sort Options */}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 gap-4 sm:gap-0 w-full sm:w-auto">
+                      {/* Currency Selector */}
+                      <Select
+                        onValueChange={(value) => setSelectedCurrency(value)}
+                      >
+                        <SelectTrigger className="w-full sm:w-[180px]">
+                          <SelectValue placeholder="Currency" />
+                        </SelectTrigger>
+                        <SelectContent className="z-20 max-h-60 overflow-auto">
+                          {currencies.map((currency) => (
+                            <SelectItem
+                              key={currency.value}
+                              value={currency.value}
+                            >
+                              {currency.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+
+                      {/* Sort Selector */}
+                      <Select onValueChange={(value) => setSortOrder(value)}>
+                        <SelectTrigger className="w-full sm:w-[180px]">
+                          <SelectValue placeholder="Sort" />
+                        </SelectTrigger>
+                        <SelectContent className="z-20 max-h-60 overflow-auto">
+                          <SelectItem value="low-to-high">
+                            Price: Low to High
+                          </SelectItem>
+                          <SelectItem value="high-to-low">
+                            Price: High to Low
+                          </SelectItem>
+                          <SelectItem value="market-cap-asc">
+                            Market Cap: Low to High
+                          </SelectItem>
+                          <SelectItem value="market-cap-desc">
+                            Market Cap: High to Low
+                          </SelectItem>
+                          <SelectItem value="percentage-change-asc">
+                            % Change: Low to High
+                          </SelectItem>
+                          <SelectItem value="percentage-change-desc">
+                            % Change: High to Low
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Coin List */}
+              <div className="grid w-full min-h-fit grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-3 md:gap-5 lg:gap-10 p-5 max-w-screen-2xl mx-auto">
                 {sortedCoins.map((coin) => (
                   <CurrencyCard
                     id={coin.id}
