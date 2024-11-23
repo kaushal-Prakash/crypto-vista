@@ -91,7 +91,7 @@ const Favorites: React.FC = () => {
               className="mt-8 mx-auto"
             />
             <p className="text-2xl font-semibold text-gray-800 dark:text-white mt-16 sm:mt-32 text-center">
-              Oops! Looks like you're on a coin diet. No favorites yet! 
+              Oops! Looks like you&apos;re on a coin diet. No favorites yet! 
               <br />
               Start adding your favorite coins and make them rich!
             </p>
