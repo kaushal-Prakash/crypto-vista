@@ -20,10 +20,10 @@ const Custom404 = () => {
         {/* Error Message */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mt-8">404</h1>
         <p className="mt-4 text-lg sm:text-xl font-medium text-gray-300">
-          Oops! It looks like you’re lost in space.
+          Oops! It looks like you&apos;re lost in space.
         </p>
         <p className="mt-2 text-sm sm:text-base text-gray-400">
-          The page you’re looking for doesn’t exist or has been moved.
+          The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
 
         <Link href="/home">
