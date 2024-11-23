@@ -12,6 +12,7 @@ interface CurrencyCardProps {
   currentPrice: number;
   priceChange24hr: number;
   img: string;
+  currency:string;
 }
 
 const CurrencyCard: React.FC<CurrencyCardProps> = ({
@@ -21,6 +22,7 @@ const CurrencyCard: React.FC<CurrencyCardProps> = ({
   currentPrice,
   priceChange24hr,
   img,
+  currency
 }) => {
   const handleHeartClick = (e: React.MouseEvent) => {
     // Prevent default and propagation for the heart icon click
@@ -68,7 +70,7 @@ const CurrencyCard: React.FC<CurrencyCardProps> = ({
               <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
                 Current Price: {" "}
                 <span className="text-gray-900 dark:text-white">
-                  ${currentPrice.toFixed(2)}
+                  {currentPrice.toFixed(2)}{" "}{currency}
                 </span>
               </p>
               <p

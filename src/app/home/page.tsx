@@ -14,14 +14,14 @@ import {
 } from "@/components/ui/select";
 
 interface Cryptocurrency {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  market_cap: any;
+  market_cap: number;
   id: string;
   name: string;
   symbol: string;
   image: string;
   current_price: number;
   price_change_percentage_24h: number;
+  currency:string;
 }
 
 interface currency {
@@ -33,6 +33,7 @@ const CoinList: React.FC = () => {
   const [coins, setCoins] = useState<Cryptocurrency[]>([]);
   const [currencies, setCurrencies] = useState<currency[]>([]);
   const [sortOrder, setSortOrder] = useState<string | null>(null);
+  const [selectedCurrency, setSelectedCurrency] = useState<string>("usd");
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -42,21 +43,20 @@ const CoinList: React.FC = () => {
           "https://api.coingecko.com/api/v3/coins/markets",
           {
             params: {
-              vs_currency: "usd",
-              order: "market_cap_desc", // Default sorting by market cap
+              vs_currency: selectedCurrency,
+              order: "market_cap_desc",
             },
           }
         );
         setCoins(response.data);
       } catch (error) {
         toast("Error fetching the coin list");
-        console.log(error);
+        console.error(error);
       }
     };
-    
 
     fetchCoins();
-  }, []);
+  }, [selectedCurrency]); // Re-fetch whenever selectedCurrency changes
 
   useEffect(() => {
     const fetchCurrencies = async () => {
@@ -70,8 +70,8 @@ const CoinList: React.FC = () => {
         }));
         setCurrencies(formattedCurrencies);
       } catch (error) {
-        toast("Error fetching currencies!!");
-        console.log(error);
+        toast("Error fetching currencies!");
+        console.error(error);
       }
     };
 
@@ -80,7 +80,7 @@ const CoinList: React.FC = () => {
 
   const sortedCoins = React.useMemo(() => {
     if (!sortOrder) return coins;
-  
+
     return [...coins].sort((a, b) => {
       switch (sortOrder) {
         case "market-cap-asc":
@@ -100,7 +100,6 @@ const CoinList: React.FC = () => {
       }
     });
   }, [coins, sortOrder]);
-  
 
   const backgroundImage =
     theme === "dark" ? "/bg/home-dark.jpg" : "/bg/home-light.jpg";
@@ -119,9 +118,8 @@ const CoinList: React.FC = () => {
           </div>
         ) : (
           <>
-            {/* Currency Selector */}
             <div className="mt-16 sm:mt-24 z-10 relative flex flex-wrap gap-5 justify-center w-full">
-              <Select>
+              <Select onValueChange={(value) => setSelectedCurrency(value)}>
                 <SelectTrigger className="w-full sm:w-[180px]">
                   <SelectValue placeholder="Currency" />
                 </SelectTrigger>
@@ -161,7 +159,6 @@ const CoinList: React.FC = () => {
               </Select>
             </div>
 
-            {/* Coin Grid */}
             <div className="w-full flex justify-center items-center">
               <div className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-3 md:gap-5 lg:gap-10 p-5 max-w-screen-2xl mx-auto">
                 {sortedCoins.map((coin) => (
@@ -173,6 +170,7 @@ const CoinList: React.FC = () => {
                     symbol={coin.symbol}
                     currentPrice={coin.current_price}
                     priceChange24hr={coin.price_change_percentage_24h}
+                    currency={selectedCurrency}
                   />
                 ))}
               </div>
