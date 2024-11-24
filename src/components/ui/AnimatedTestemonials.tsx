@@ -37,61 +37,61 @@ export const AnimatedTestimonials = ({
       const interval = setInterval(handleNext, 5000);
       return () => clearInterval(interval);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoplay]);
 
   const randomRotateY = () => {
     return Math.floor(Math.random() * 21) - 10;
   };
   return (
-    <div className="max-w-sm md:max-w-4xl mx-auto antialiased font-sans px-4 md:px-8 lg:px-12 py-20">
-      <div className="relative grid grid-cols-1 md:grid-cols-2  gap-20">
-        <div>
-          <div className="relative h-80 w-full">
-            <AnimatePresence>
-              {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={testimonial.src}
-                  initial={{
-                    opacity: 0,
-                    scale: 0.9,
-                    z: -100,
-                    rotate: randomRotateY(),
-                  }}
-                  animate={{
-                    opacity: isActive(index) ? 1 : 0.7,
-                    scale: isActive(index) ? 1 : 0.95,
-                    z: isActive(index) ? 0 : -100,
-                    rotate: isActive(index) ? 0 : randomRotateY(),
-                    zIndex: isActive(index)
-                      ? 999
-                      : testimonials.length + 2 - index,
-                    y: isActive(index) ? [0, -80, 0] : 0,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    scale: 0.9,
-                    z: 100,
-                    rotate: randomRotateY(),
-                  }}
-                  transition={{
-                    duration: 0.4,
-                    ease: "easeInOut",
-                  }}
-                  className="absolute inset-0 origin-bottom"
-                >
-                  <Image
-                    src={testimonial.src}
-                    alt={testimonial.name}
-                    width={500}
-                    height={500}
-                    draggable={false}
-                    className="h-full w-full rounded-3xl object-cover object-center"
-                  />
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
+    <div className="max-w-sm md:max-w-4xl mx-auto antialiased font-sans px-4 md:px-8 lg:px-12 py-20 relative z-10">
+      <div className="relative grid grid-cols-1 md:grid-cols-2 gap-20">
+        <div className="relative h-80 w-full">
+          <AnimatePresence>
+            {testimonials.map((testimonial, index) => (
+              <motion.div
+                key={testimonial.src}
+                initial={{
+                  opacity: 0,
+                  scale: 0.9,
+                  z: -100,
+                  rotate: randomRotateY(),
+                }}
+                animate={{
+                  opacity: isActive(index) ? 1 : 0.7,
+                  scale: isActive(index) ? 1 : 0.95,
+                  z: isActive(index) ? 0 : -100,
+                  rotate: isActive(index) ? 0 : randomRotateY(),
+                  zIndex: isActive(index)
+                    ? 999
+                    : testimonials.length + 2 - index,
+                  y: isActive(index) ? [0, -80, 0] : 0,
+                }}
+                exit={{
+                  opacity: 0,
+                  scale: 0.9,
+                  z: 100,
+                  rotate: randomRotateY(),
+                }}
+                transition={{
+                  duration: 0.4,
+                  ease: "easeInOut",
+                }}
+                className="absolute inset-0 origin-bottom z-0"
+              >
+                <Image
+                  src={testimonial.src}
+                  alt={testimonial.name}
+                  width={350}
+                  height={350}
+                  draggable={false}
+                  className="h-full w-full rounded-3xl object-cover object-center"
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
+        {/* Other content */}
         <div className="flex justify-between flex-col py-4">
           <motion.div
             key={active}
