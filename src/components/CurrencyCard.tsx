@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { GoHeartFill, GoHeart } from "react-icons/go";
 import CardLabel from "./CardLabel";
+import gsap from "gsap";
 
 interface CurrencyCardProps {
   id: string;
@@ -35,6 +36,15 @@ const CurrencyCard: React.FC<CurrencyCardProps> = ({
     setFavorite(isFavorite); // Update local state when parent updates
   }, [isFavorite]);
 
+  useEffect(()=>{
+    const t1 = gsap.timeline();
+    t1.fromTo(".fav-icon",
+      {y:10},
+      {y: 0, duration: 1, repeat: -1, yoyo: true, ease: "power1.inOut"}
+    );
+
+  },[])
+
   const handleHeartClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -52,7 +62,7 @@ const CurrencyCard: React.FC<CurrencyCardProps> = ({
         className="absolute top-3 right-3 p-3 rounded-full transition hover:text-red-600 text-gray-500 dark:text-gray-400"
       >
         {favorite ? (
-          <GoHeartFill size={24} className="text-red-600" />
+          <GoHeartFill size={24} className="text-red-600 fav-icon" />
         ) : (
           <GoHeart size={24} />
         )}

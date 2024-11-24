@@ -25,41 +25,43 @@ export default function Home() {
     t1.fromTo(
       ".hero-content",
       { opacity: 0, y: 60 },
-      { opacity: 1, y: 0, duration: 1, delay: 0.4, stagger: 0.4,ease: "none" }
+      { opacity: 1, y: 0, duration: 1, delay: 0.4, stagger: 0.4, ease: "none" }
     );
 
     t2.fromTo(
       ".floating-img",
       { opacity: 0, y: 60, x: -10 },
-      { opacity: 1, y: 0, x: 0, duration: 1, stagger: 0.3,ease: "none" }
+      { opacity: 1, y: 0, x: 0, duration: 1, stagger: 0.3, ease: "none" }
     );
 
     const t3 = gsap.timeline({
       scrollTrigger: {
         trigger: ".hero-content-container",
-        start:"top 90%",
-        end:"top 0%",
+        start: "top 90%",
+        end: "top 0%",
         scrub: 0.6,
-      }
+      },
     });
 
-    t3.fromTo(".feature-content",
-      {opacity:0,y:130,x:-10},
-      {opacity:1,y:0,x:0,duration:1,stagger:0.4,ease: "none"}
+    t3.fromTo(
+      ".feature-content",
+      { opacity: 0, y: 130, x: -10 },
+      { opacity: 1, y: 0, x: 0, duration: 1, stagger: 0.4, ease: "none" }
     );
-    
+
     const t4 = gsap.timeline({
       scrollTrigger: {
         trigger: ".end-content-container",
-        start:"top 100%",
-        end:"top 40%",
+        start: "top 100%",
+        end: "top 40%",
         scrub: 0.3,
-      }
+      },
     });
-    t4.fromTo(".landing-end-content",
-      {opacity:0,y:130,x:-10},
-      {opacity:1,y:0,x:0,duration:1,stagger:0.4,ease: "none"}
-    )
+    t4.fromTo(
+      ".landing-end-content",
+      { opacity: 0, y: 130, x: -10 },
+      { opacity: 1, y: 0, x: 0, duration: 1, stagger: 0.4, ease: "none" }
+    );
   });
 
   return (
@@ -144,10 +146,10 @@ export default function Home() {
             </p>
             <Link
               href="/home"
-              className={`py-3 px-8 hero-content rounded-lg text-lg shadow-lg transition ${
+              className={`py-3 px-8 hero-content rounded-lg text-lg shadow-lg font-semibold transform-gpu transition duration-300 ease-in-out hover:scale-105 ${
                 theme === "dark"
-                  ? "bg-purple-600 hover:bg-purple-700 text-white"
-                  : "bg-purple-500 hover:bg-purple-600 text-white"
+                  ? "bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-700 hover:via-indigo-700 hover:to-blue-700 text-white shadow-purple-800/50"
+                  : "bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:from-purple-600 hover:via-pink-600 hover:to-red-600 text-white shadow-pink-500/50"
               }`}
             >
               Get Started
