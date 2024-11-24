@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import TestimonialsSec from "@/components/TestemonialsSec";
 
 export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -241,6 +242,10 @@ export default function Home() {
                 </div>
               </div>
             </div>
+          </section>
+
+          <section className="w-full">
+            <TestimonialsSec />
           </section>
 
           {/* Call-to-Action Section */}

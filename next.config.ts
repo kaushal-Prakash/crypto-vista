@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
       {
         hostname: "coin-images.coingecko.com",
       },
+      {
+        hostname:"unsplash.com"
+      },
+      {
+        hostname:"images.unsplash.com"
+      }
 
     ],
   },
