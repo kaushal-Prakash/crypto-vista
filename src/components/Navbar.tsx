@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useTheme } from 'next-themes';
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { FiMenu, FiX, FiMoon, FiSun } from 'react-icons/fi';
+import { useTheme } from "next-themes";
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import { FiMenu, FiX, FiMoon, FiSun } from "react-icons/fi";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,7 +18,7 @@ function Navbar() {
 
   // Toggle theme
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   const closeMenu = () => setIsMenuOpen(false);
@@ -26,19 +26,21 @@ function Navbar() {
   if (!mounted) return null;
 
   return (
-    <div className={`${theme === 'dark' ? 'dark' : ''}`}>
+    <div className={`${theme === "dark" ? "dark" : ""}`}>
       {/* Navbar */}
       <nav
         className={`fixed w-full top-0 left-0 z-30 rounded-b-lg bg-transparent backdrop-blur-2xl transition-all ${
-          theme === 'dark'
-            ? 'bg-gray-900 text-white shadow-lg'
-            : 'bg-white text-gray-900 shadow-md'
+          theme === "dark"
+            ? "bg-gray-900 text-white shadow-lg"
+            : "bg-white text-gray-900 shadow-md"
         }`}
       >
         <div className="container mx-auto flex justify-between items-center p-3">
           {/* Logo */}
           <div className="text-2xl font-bold">
-            <span className="text-blue-500">Crypto</span>Vista
+            <Link href="/">
+              <span className="text-blue-500">Crypto</span>Vista
+            </Link>
           </div>
 
           {/* Right Section - Theme Toggle & Hamburger Menu */}
@@ -48,7 +50,7 @@ function Navbar() {
               onClick={toggleTheme} // Toggle theme on button click
               className="p-2 rounded-lg transition hover:bg-gray-200 dark:hover:bg-gray-700"
             >
-              {theme === 'dark' ? <FiSun size={20} /> : <FiMoon size={20} />}
+              {theme === "dark" ? <FiSun size={20} /> : <FiMoon size={20} />}
             </button>
 
             {/* Hamburger Menu */}
@@ -62,9 +64,9 @@ function Navbar() {
             {/* Menu Links */}
             <div
               className={`absolute top-full right-0 backdrop-blur-lg ${
-                theme === 'dark' ? 'bg-gray-800' : 'bg-white'
+                theme === "dark" ? "bg-gray-800" : "bg-white"
               } rounded-lg shadow-lg p-4 md:flex md:space-x-8 md:bg-transparent md:shadow-none ${
-                isMenuOpen ? 'block' : 'hidden'
+                isMenuOpen ? "block" : "hidden"
               } md:static md:ml-4`}
             >
               <Link
@@ -89,11 +91,11 @@ function Navbar() {
                 Exchanges
               </Link>
               <Link
-                href="/favorite"
+                href="/favourite"
                 onClick={closeMenu}
                 className="py-2 px-4 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                Favs
+                Favourites
               </Link>
             </div>
           </div>
