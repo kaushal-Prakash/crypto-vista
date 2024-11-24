@@ -106,7 +106,8 @@ function ExchangesPage() {
 
       {/* Main Content */}
       <div className="relative z-20">
-        <h1 className="text-2xl md:text-4xl pt-24 w-full text-center font-bold mb-4">
+        <h1 className="text-2xl md:text-4xl pt-24 w-full text-center font-bold mb-4"
+        style={{textShadow:"1px 1px 3px black"}}>
           <span className="text-blue-500">Cryptocurrency</span> Exchanges
         </h1>
 
