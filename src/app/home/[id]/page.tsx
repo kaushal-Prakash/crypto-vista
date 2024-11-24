@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
-
+'use client'
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
@@ -16,6 +15,7 @@ import {
   Legend,
 } from "chart.js";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 // Register Chart.js components
 ChartJS.register(
@@ -34,8 +34,8 @@ const CryptoAnalysisPage: React.FC = () => {
   const [days, setDays] = useState<string>("30"); // Default to 30 days
   const [cryptoDetails, setCryptoDetails] = useState<any>(null);
   const [pointCount, setPointCount] = useState<number>(30); // Default number of points
+  const { theme } = useTheme(); // Access the current theme
 
-  // Adjust the number of points dynamically based on screen size
   useEffect(() => {
     const adjustPointCount = () => {
       const width = window.innerWidth;
@@ -56,7 +56,6 @@ const CryptoAnalysisPage: React.FC = () => {
     };
   }, []);
 
-  // Memoized function to fetch historical price data
   const fetchCryptoAnalysis = useCallback(
     async (id: string, days: string) => {
       try {
@@ -77,10 +76,7 @@ const CryptoAnalysisPage: React.FC = () => {
             price,
           })
         );
-        console.log(prices);
-        console.log(prices);
 
-        // Reduce points to match the desired pointCount
         const step = Math.ceil(prices.length / pointCount);
         return prices.filter((_: any, index: number) => index % step === 0);
       } catch (error) {
@@ -88,10 +84,9 @@ const CryptoAnalysisPage: React.FC = () => {
         return [];
       }
     },
-    [pointCount] // Dependencies for memoization
+    [pointCount]
   );
 
-  // Fetch coin details
   const fetchCoinDetails = async (id: string) => {
     try {
       const response = await axios.get(
@@ -108,11 +103,10 @@ const CryptoAnalysisPage: React.FC = () => {
     const loadAnalysis = async () => {
       if (!id) return;
 
-      // Fetch historical price data
       const analysisData = await fetchCryptoAnalysis(id, days);
 
       if (analysisData.length === 0) {
-        setChartData(null); // Handle case where data is not available
+        setChartData(null);
       } else {
         const labels = analysisData.map((entry: { date: any }) => entry.date);
         const prices = analysisData.map((entry: { price: any }) => entry.price);
@@ -123,15 +117,16 @@ const CryptoAnalysisPage: React.FC = () => {
             {
               label: "Price (USD)",
               data: prices,
-              borderColor: "rgba(75, 192, 192, 1)",
-              backgroundColor: "rgba(75, 192, 192, 0.2)",
+              borderColor: theme === "dark" ? "#4A90E2" : "#75BEE9", // Blue line for dark mode
+              backgroundColor: theme === "dark" ? "rgba(74, 144, 226, 0.2)" : "rgba(117, 190, 233, 0.2)",
               fill: true,
+              borderWidth: 2,
+              pointRadius: 3,
             },
           ],
         });
       }
 
-      // Fetch coin details
       const details = await fetchCoinDetails(id);
       if (details) {
         setCryptoDetails({
@@ -146,7 +141,7 @@ const CryptoAnalysisPage: React.FC = () => {
     };
 
     loadAnalysis();
-  }, [id, days, fetchCryptoAnalysis]); // Dependencies for useEffect
+  }, [id, days, fetchCryptoAnalysis, theme]);
 
   return (
     <div className="p-6 w-full min-h-screen">
@@ -155,10 +150,8 @@ const CryptoAnalysisPage: React.FC = () => {
         {cryptoDetails?.symbol.toUpperCase()})
       </h1>
 
-      {/* Coin Details Section */}
       {cryptoDetails && (
         <div className="relative bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-6 rounded-lg shadow-md text-white overflow-hidden">
-          {/* Logo Background */}
           <div
             className="absolute inset-0"
             style={{
@@ -167,12 +160,11 @@ const CryptoAnalysisPage: React.FC = () => {
               backgroundRepeat: "no-repeat",
               backgroundPosition: "right bottom -10%",
               opacity: 0.2,
-              transform:'rotate(5deg)',
+              transform: "rotate(5deg)",
               zIndex: 0,
             }}
           />
 
-          {/* Content Section */}
           <div className="relative z-10">
             <div className="flex items-center mb-4">
               <Image
@@ -207,7 +199,6 @@ const CryptoAnalysisPage: React.FC = () => {
         </div>
       )}
 
-      {/* Day Selector */}
       <div className="my-6 flex items-center">
         <label
           htmlFor="days"
@@ -226,7 +217,6 @@ const CryptoAnalysisPage: React.FC = () => {
         </select>
       </div>
 
-      {/* Line Chart */}
       {chartData ? (
         <Line
           data={chartData}
@@ -234,15 +224,38 @@ const CryptoAnalysisPage: React.FC = () => {
             responsive: true,
             plugins: {
               legend: {
-                position: "top",
+                labels: {
+                  color: theme === "dark" ? "#FFFFFF" : "#000000",
+                },
               },
               title: {
                 display: true,
                 text: `Price Trend for ${cryptoDetails?.name} (Last ${days} Days)`,
+                color: theme === "dark" ? "#FFFFFF" : "#000000",
+              },
+            },
+            scales: {
+              x: {
+                ticks: {
+                  color: theme === "dark" ? "#FFFFFF" : "#000000",
+                },
+                grid: {
+                  color: theme === "dark" ? "#333333" : "#CCCCCC",
+                },
+              },
+              y: {
+                ticks: {
+                  color: theme === "dark" ? "#FFFFFF" : "#000000",
+                },
+                grid: {
+                  color: theme === "dark" ? "#333333" : "#CCCCCC",
+                },
               },
             },
           }}
-          className="bg-white p-4 rounded-lg shadow-md"
+          className={`p-4 rounded-lg shadow-md ${
+            theme === "dark" ? "bg-gray-800" : "bg-white"
+          }`}
         />
       ) : (
         <p className="text-gray-600">No historical price data available.</p>
