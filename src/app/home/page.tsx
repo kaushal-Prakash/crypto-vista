@@ -179,10 +179,11 @@ const CoinList: React.FC = () => {
             <div className="mt-16 sm:mt-24 flex flex-col justify-between z-10 relative w-full max-w-screen-2xl mx-auto">
               <div className="w-full mb-2 h-fit">
                 <div className="w-full flex justify-center">
-                  <h1 className="text-2xl md:text-4xl pt-5 w-full text-center font-bold mb-4"
-                  style={{textShadow:"1px 1px 3px black"}}>
-                    <span className="text-blue-500">All</span>{" "}
-                    Cryptocurrencies
+                  <h1
+                    className="text-2xl md:text-4xl pt-5 w-full text-center font-bold mb-4"
+                    style={{ textShadow: "1px 1px 3px black" }}
+                  >
+                    <span className="text-blue-500">All</span> Cryptocurrencies
                   </h1>
                 </div>
 
@@ -269,32 +270,49 @@ const CoinList: React.FC = () => {
                 </div>
                 {/* Pagination Controls */}
                 <Pagination>
-                  <PaginationContent className="lex flex-wrap justify-center gap-2">
-                    <PaginationItem>
-                      <PaginationPrevious
-                        href="#"
-                        onClick={() => paginate(currentPage - 1)}
-                        aria-disabled={currentPage === 1}
-                      />
-                    </PaginationItem>
+                  <PaginationContent className="flex flex-wrap justify-center gap-2">
+                    {/* Previous Button */}
+                    {currentPage > 1 && (
+                      <PaginationItem>
+                        <PaginationPrevious
+                          href="#"
+                          onClick={() => paginate(currentPage - 1)}
+                          className="px-3 py-1"
+                        >
+                          Previous
+                        </PaginationPrevious>
+                      </PaginationItem>
+                    )}
+
+                    {/* Page Numbers */}
                     {[...Array(totalPages)].map((_, index) => (
                       <PaginationItem key={index}>
                         <PaginationLink
                           href="#"
                           onClick={() => paginate(index + 1)}
-                          className={currentPage === index + 1 ? "active" : ""}
+                          className={`px-3 py-1 ${
+                            currentPage === index + 1
+                              ? "bg-blue-500 text-white rounded shadow-md"
+                              : "hover:bg-gray-500"
+                          }`}
                         >
                           {index + 1}
                         </PaginationLink>
                       </PaginationItem>
                     ))}
-                    <PaginationItem>
-                      <PaginationNext
-                        href="#"
-                        onClick={() => paginate(currentPage + 1)}
-                        aria-disabled={currentPage === totalPages}
-                      />
-                    </PaginationItem>
+
+                    {/* Next Button */}
+                    {currentPage < totalPages && (
+                      <PaginationItem>
+                        <PaginationNext
+                          href="#"
+                          onClick={() => paginate(currentPage + 1)}
+                          className="px-3 py-1"
+                        >
+                          Next
+                        </PaginationNext>
+                      </PaginationItem>
+                    )}
                   </PaginationContent>
                 </Pagination>
               </div>

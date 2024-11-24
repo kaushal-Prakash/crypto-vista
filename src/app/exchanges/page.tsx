@@ -9,7 +9,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import ExchangeCard from "@/components/ExchangeCard";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { useTheme } from "next-themes";
 import { Exchange } from "@/lib/types";
 
@@ -25,7 +32,9 @@ function ExchangesPage() {
   const [exchanges, setExchanges] = useState<Exchange[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<SortOrder>("volume-desc"); // Set initial sort order
-  const [backgroundImage, setBackgroundImage] = useState<string>("/bg/exchange-dark.jpg");
+  const [backgroundImage, setBackgroundImage] = useState<string>(
+    "/bg/exchange-dark.jpg"
+  );
   const { theme } = useTheme();
 
   // Pagination states
@@ -33,12 +42,16 @@ function ExchangesPage() {
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
-    setBackgroundImage(theme === "light" ? "/bg/exchange-light.jpg" : "/bg/exchange-dark.jpg");
+    setBackgroundImage(
+      theme === "light" ? "/bg/exchange-light.jpg" : "/bg/exchange-dark.jpg"
+    );
   }, [theme]);
 
   useEffect(() => {
     const fetchExchanges = async () => {
-      const response = await fetch("https://api.coingecko.com/api/v3/exchanges");
+      const response = await fetch(
+        "https://api.coingecko.com/api/v3/exchanges"
+      );
       const data = await response.json();
       setExchanges(data);
     };
@@ -62,11 +75,13 @@ function ExchangesPage() {
         return (b.trade_volume_24h_btc ?? 0) - (a.trade_volume_24h_btc ?? 0);
       case "crypto-asc":
         return (
-          (a.trade_volume_24h_btc_normalized ?? 0) - (b.trade_volume_24h_btc_normalized ?? 0)
+          (a.trade_volume_24h_btc_normalized ?? 0) -
+          (b.trade_volume_24h_btc_normalized ?? 0)
         );
       case "crypto-desc":
         return (
-          (b.trade_volume_24h_btc_normalized ?? 0) - (a.trade_volume_24h_btc_normalized ?? 0)
+          (b.trade_volume_24h_btc_normalized ?? 0) -
+          (a.trade_volume_24h_btc_normalized ?? 0)
         );
       default:
         return 0;
@@ -76,7 +91,10 @@ function ExchangesPage() {
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentExchanges = sortedExchanges.slice(indexOfFirstItem, indexOfLastItem);
+  const currentExchanges = sortedExchanges.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
   const totalPages = Math.ceil(sortedExchanges.length / itemsPerPage);
 
   const paginate = (pageNumber: number) => {
@@ -98,8 +116,10 @@ function ExchangesPage() {
 
       {/* Main Content */}
       <div className="relative z-20">
-        <h1 className="text-2xl md:text-4xl pt-24 w-full text-center font-bold mb-4"
-        style={{textShadow:"1px 1px 3px black"}}>
+        <h1
+          className="text-2xl md:text-4xl pt-24 w-full text-center font-bold mb-4"
+          style={{ textShadow: "1px 1px 3px black" }}
+        >
           <span className="text-blue-500">Cryptocurrency</span> Exchanges
         </h1>
 
@@ -151,33 +171,48 @@ function ExchangesPage() {
         {/* Pagination */}
         <Pagination>
           <PaginationContent className="flex flex-wrap justify-center gap-2">
-            <PaginationItem>
-              <PaginationPrevious
-                href="#"
-                onClick={() => paginate(currentPage - 1)}
-                aria-disabled={currentPage === 1}
-                className="px-3 py-1"
-              />
-            </PaginationItem>
+            {/* Previous Button */}
+            {currentPage > 1 && (
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  onClick={() => paginate(currentPage - 1)}
+                  className="px-3 py-1"
+                >
+                  Previous
+                </PaginationPrevious>
+              </PaginationItem>
+            )}
+
+            {/* Page Numbers */}
             {[...Array(totalPages)].map((_, index) => (
               <PaginationItem key={index}>
                 <PaginationLink
                   href="#"
                   onClick={() => paginate(index + 1)}
-                  className={`px-3 py-1 ${currentPage === index + 1 ? "active" : ""}`}
+                  className={`px-3 py-1 ${
+                    currentPage === index + 1
+                      ? "bg-blue-500 text-white rounded shadow-md"
+                      : "hover:bg-gray-500"
+                  }`}
                 >
                   {index + 1}
                 </PaginationLink>
               </PaginationItem>
             ))}
-            <PaginationItem>
-              <PaginationNext
-                href="#"
-                onClick={() => paginate(currentPage + 1)}
-                aria-disabled={currentPage === totalPages}
-                className="px-3 py-1"
-              />
-            </PaginationItem>
+
+            {/* Next Button */}
+            {currentPage < totalPages && (
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={() => paginate(currentPage + 1)}
+                  className="px-3 py-1"
+                >
+                  Next
+                </PaginationNext>
+              </PaginationItem>
+            )}
           </PaginationContent>
         </Pagination>
       </div>
