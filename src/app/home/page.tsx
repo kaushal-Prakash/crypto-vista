@@ -277,7 +277,7 @@ const CoinList: React.FC = () => {
                 </div>
                 {/* Pagination Controls */}
                 <Pagination>
-                  <PaginationContent>
+                  <PaginationContent className="lex flex-wrap justify-center gap-2">
                     <PaginationItem>
                       <PaginationPrevious
                         href="#"
