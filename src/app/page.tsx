@@ -52,14 +52,14 @@ export default function Home() {
     const t4 = gsap.timeline({
       scrollTrigger: {
         trigger: ".end-content-container",
-        start: "top 100%",
-        end: "top 40%",
+        start: "top 110%",
+        end: "top 70%",
         scrub: 0.3,
       },
     });
     t4.fromTo(
       ".landing-end-content",
-      { opacity: 0, y: 130, x: -10 },
+      { opacity: 0, y: 100, x: -10 },
       { opacity: 1, y: 0, x: 0, duration: 1, stagger: 0.4, ease: "none" }
     );
   });
