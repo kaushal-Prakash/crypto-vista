@@ -11,15 +11,7 @@ import {
 import ExchangeCard from "@/components/ExchangeCard";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { useTheme } from "next-themes";
-
-// Define the TypeScript type for exchange data
-interface Exchange {
-  id: string;
-  name: string;
-  trade_volume_24h_btc: number;
-  trade_volume_24h_btc_normalized: number;
-  image: string;
-}
+import { Exchange } from "@/lib/types";
 
 type SortOrder =
   | "volume-asc"

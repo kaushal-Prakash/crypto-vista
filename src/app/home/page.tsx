@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CurrencyCard from "@/components/CurrencyCard";
 import Loading from "@/app/Loading";
+import { Cryptocurrency } from "@/lib/types";
 import {
   Select,
   SelectContent,
@@ -21,17 +22,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-
-interface Cryptocurrency {
-  market_cap: number;
-  id: string;
-  name: string;
-  symbol: string;
-  image: string;
-  current_price: number;
-  price_change_percentage_24h: number;
-  currency: string;
-}
 
 interface Currency {
   label: string;

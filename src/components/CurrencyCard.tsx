@@ -6,18 +6,7 @@ import Link from "next/link";
 import { GoHeartFill, GoHeart } from "react-icons/go";
 import CardLabel from "./CardLabel";
 import gsap from "gsap";
-
-interface CurrencyCardProps {
-  id: string;
-  name: string;
-  symbol: string;
-  currentPrice: number;
-  priceChange24hr: number;
-  img: string;
-  currency: string;
-  isFavorite?: boolean;
-  onFavoriteToggle?: (id: string) => void;
-}
+import { CurrencyCardProps } from "@/lib/types";
 
 const CurrencyCard: React.FC<CurrencyCardProps> = ({
   id,
