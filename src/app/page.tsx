@@ -25,27 +25,27 @@ export default function Home() {
     t1.fromTo(
       ".hero-content",
       { opacity: 0, y: 60 },
-      { opacity: 1, y: 0, duration: 1, delay: 0.4, stagger: 0.4 }
+      { opacity: 1, y: 0, duration: 1, delay: 0.4, stagger: 0.4,ease: "none" }
     );
 
     t2.fromTo(
       ".floating-img",
       { opacity: 0, y: 60, x: -10 },
-      { opacity: 1, y: 0, x: 0, duration: 1, stagger: 0.3 }
+      { opacity: 1, y: 0, x: 0, duration: 1, stagger: 0.3,ease: "none" }
     );
 
     const t3 = gsap.timeline({
       scrollTrigger: {
         trigger: ".hero-content-container",
-        start:"top 70%",
-        end:"top -20%",
+        start:"top 90%",
+        end:"top 0%",
         scrub: 0.6,
       }
     });
 
     t3.fromTo(".feature-content",
       {opacity:0,y:130,x:-10},
-      {opacity:1,y:0,x:0,duration:1,stagger:0.4}
+      {opacity:1,y:0,x:0,duration:1,stagger:0.4,ease: "none"}
     );
     
     const t4 = gsap.timeline({
@@ -58,7 +58,7 @@ export default function Home() {
     });
     t4.fromTo(".landing-end-content",
       {opacity:0,y:130,x:-10},
-      {opacity:1,y:0,x:0,duration:1,stagger:0.4}
+      {opacity:1,y:0,x:0,duration:1,stagger:0.4,ease: "none"}
     )
   });
 
