@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import CurrencyCard from "@/components/currency card/CurrencyCard";
+import CurrencyCard from "@/components/CurrencyCard";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useTheme } from "next-themes";

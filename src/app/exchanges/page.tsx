@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import ExchangeCard from "@/components/exchange card/ExchangeCard";
+import ExchangeCard from "@/components/ExchangeCard";
 import { useTheme } from "next-themes";
 
 // Define the TypeScript type for exchange data

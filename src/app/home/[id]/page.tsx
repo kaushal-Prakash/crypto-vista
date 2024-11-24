@@ -40,9 +40,9 @@ const CryptoAnalysisPage: React.FC = () => {
     const adjustPointCount = () => {
       const width = window.innerWidth;
       if (width < 600) {
-        setPointCount(10); // Smaller screens: Fewer points
+        setPointCount(15); // Smaller screens: Fewer points
       } else if (width < 1024) {
-        setPointCount(20); // Medium screens: Moderate points
+        setPointCount(22); // Medium screens: Moderate points
       } else {
         setPointCount(30); // Larger screens: Maximum points
       }
@@ -77,6 +77,8 @@ const CryptoAnalysisPage: React.FC = () => {
             price,
           })
         );
+        console.log(prices);
+        console.log(prices);
 
         // Reduce points to match the desired pointCount
         const step = Math.ceil(prices.length / pointCount);

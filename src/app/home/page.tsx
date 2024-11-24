@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -5,7 +6,7 @@ import axios from "axios";
 import { useTheme } from "next-themes";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CurrencyCard from "@/components/currency card/CurrencyCard";
+import CurrencyCard from "@/components/CurrencyCard";
 import Loading from "@/app/Loading";
 import {
   Select,

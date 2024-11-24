@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Navbar from "@/components/navbar/Navbar";
+import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
-import Footer from "@/components/footer/Footer";
+import Footer from "@/components/Footer";
 import RecoilContextProvider from "./RecoilContextProvider";
 import { ToastContainer } from "react-toastify";
 

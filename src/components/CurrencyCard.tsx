@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { GoHeartFill, GoHeart } from "react-icons/go";
-import CardLabel from "../card label/CardLabel";
+import CardLabel from "./CardLabel";
 
 interface CurrencyCardProps {
   id: string;
