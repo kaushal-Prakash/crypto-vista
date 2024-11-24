@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import ExchangeCard from "@/components/ExchangeCard";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { useTheme } from "next-themes";
 
 // Define the TypeScript type for exchange data
@@ -32,24 +33,21 @@ function ExchangesPage() {
   const [exchanges, setExchanges] = useState<Exchange[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<SortOrder>("volume-desc"); // Set initial sort order
-  const [backgroundImage, setBackgroundImage] = useState<string>( 
-    "/bg/exchange-dark.jpg"
-  );
+  const [backgroundImage, setBackgroundImage] = useState<string>("/bg/exchange-dark.jpg");
   const { theme } = useTheme();
 
+  // Pagination states
+  const itemsPerPage = 17;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
   useEffect(() => {
-    setBackgroundImage(
-      theme === "light" ? "/bg/exchange-light.jpg" : "/bg/exchange-dark.jpg"
-    );
+    setBackgroundImage(theme === "light" ? "/bg/exchange-light.jpg" : "/bg/exchange-dark.jpg");
   }, [theme]);
 
   useEffect(() => {
     const fetchExchanges = async () => {
-      const response = await fetch(
-        "https://api.coingecko.com/api/v3/exchanges"
-      );
+      const response = await fetch("https://api.coingecko.com/api/v3/exchanges");
       const data = await response.json();
-
       setExchanges(data);
     };
 
@@ -72,18 +70,31 @@ function ExchangesPage() {
         return (b.trade_volume_24h_btc ?? 0) - (a.trade_volume_24h_btc ?? 0);
       case "crypto-asc":
         return (
-          (a.trade_volume_24h_btc_normalized ?? 0) -
-          (b.trade_volume_24h_btc_normalized ?? 0)
+          (a.trade_volume_24h_btc_normalized ?? 0) - (b.trade_volume_24h_btc_normalized ?? 0)
         );
       case "crypto-desc":
         return (
-          (b.trade_volume_24h_btc_normalized ?? 0) -
-          (a.trade_volume_24h_btc_normalized ?? 0)
+          (b.trade_volume_24h_btc_normalized ?? 0) - (a.trade_volume_24h_btc_normalized ?? 0)
         );
       default:
         return 0;
     }
   });
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentExchanges = sortedExchanges.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(sortedExchanges.length / itemsPerPage);
+
+  const paginate = (pageNumber: number) => {
+    if (pageNumber < 1 || pageNumber > totalPages) return;
+    setCurrentPage(pageNumber);
+  };
+
+  useEffect(() => {
+    setCurrentPage(1); // Reset to the first page on search or sorting change
+  }, [searchQuery, sortOrder]);
 
   return (
     <div
@@ -99,19 +110,19 @@ function ExchangesPage() {
           Cryptocurrency Exchanges
         </h1>
 
-        <div className="mb-1 flex gap-4 flex-wrap justify-center items-center">
-        {/* Search bar */}
+        <div className="mb-4 flex gap-4 flex-wrap justify-center items-center">
+          {/* Search bar */}
           <input
             type="text"
             placeholder="Search exchanges..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="p-3 border rounded mb-4 w-full sm:w-[200px]"
+            className="p-3 border rounded w-full sm:w-[200px] md:w-[300px] mb-4"
           />
           {/* Sorting options */}
-          <div className="mb-1 w-full sm:w-[200px] sm:-translate-y-2">
+          <div className="w-full sm:w-[200px] md:w-[250px] sm:-translate-y-2">
             <Select onValueChange={(value) => setSortOrder(value as SortOrder)}>
-              <SelectTrigger className="w-full sm:w-[180px]">
+              <SelectTrigger className="w-full">
                 <SelectValue placeholder="Sort" />
               </SelectTrigger>
               <SelectContent className="z-20 max-h-60 overflow-auto">
@@ -131,8 +142,8 @@ function ExchangesPage() {
         </div>
 
         {/* Exchange Cards */}
-        <div className="grid grid-cols-1 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {sortedExchanges.map((exchange) => (
+        <div className="grid mb-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {currentExchanges.map((exchange) => (
             <ExchangeCard
               key={exchange.id}
               id={exchange.id}
@@ -143,6 +154,39 @@ function ExchangesPage() {
             />
           ))}
         </div>
+
+        {/* Pagination */}
+        <Pagination>
+          <PaginationContent className="flex flex-wrap justify-center gap-2">
+            <PaginationItem>
+              <PaginationPrevious
+                href="#"
+                onClick={() => paginate(currentPage - 1)}
+                aria-disabled={currentPage === 1}
+                className="px-3 py-1"
+              />
+            </PaginationItem>
+            {[...Array(totalPages)].map((_, index) => (
+              <PaginationItem key={index}>
+                <PaginationLink
+                  href="#"
+                  onClick={() => paginate(index + 1)}
+                  className={`px-3 py-1 ${currentPage === index + 1 ? "active" : ""}`}
+                >
+                  {index + 1}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationNext
+                href="#"
+                onClick={() => paginate(currentPage + 1)}
+                aria-disabled={currentPage === totalPages}
+                className="px-3 py-1"
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );
