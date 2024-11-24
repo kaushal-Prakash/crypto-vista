@@ -100,7 +100,7 @@ const Favorites: React.FC = () => {
             <p className="text-2xl font-semibold text-gray-800 dark:text-white mt-16 sm:mt-32 text-center">
               Oops! Looks like you&apos;re on a coin diet. No favorites yet!          
             </p>
-            <p className="text-lg sm:text-xl -translate-y-5 font-semibold text-gray-800 dark:text-slate-300 mt-16 sm:mt-32 text-center">
+            <p className="text-lg sm:text-xl -translate-y-5 sm:-translate-y-10 md:-translate-y-24 font-semibold text-gray-800 dark:text-slate-300 mt-16 sm:mt-32 text-center">
             Start adding your favorite coins and make them rich!
             </p>
           </div>
