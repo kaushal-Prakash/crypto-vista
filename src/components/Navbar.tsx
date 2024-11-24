@@ -95,7 +95,7 @@ function Navbar() {
                 onClick={closeMenu}
                 className="py-2 px-4 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                Favourites
+                Favs
               </Link>
             </div>
           </div>
