@@ -21,7 +21,7 @@ const Favorites: React.FC = () => {
 
   const [favorites, setFavorites] = useState<string[]>([]);
   const [coins, setCoins] = useState<Cryptocurrency[]>([]);
-  const [backgroundImage, setBackgroundImage] = useState<string>(
+  const [backgroundImage, setBackgroundImage] = useState<string>( 
     "/bg/fav-dark.jpg"
   );
   const { theme } = useTheme();
@@ -62,11 +62,17 @@ const Favorites: React.FC = () => {
     let updatedFavorites = [...favorites];
     if (favorites.includes(id)) {
       updatedFavorites = updatedFavorites.filter((favId) => favId !== id);
-      toast.success("Removed coin from favorites!"); 
+      toast.success("Removed coin from favorites!");
+
+      // If no favorites are left, trigger a page reload
+      if (updatedFavorites.length === 0) {
+        window.location.reload();
+      }
     } else {
       updatedFavorites.push(id);
-      toast.success("Added coin to favorites!"); 
+      toast.success("Added coin to favorites!");
     }
+
     setFavorites(updatedFavorites);
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   };
@@ -92,14 +98,14 @@ const Favorites: React.FC = () => {
               className="mt-8 mx-auto"
             />
             <p className="text-2xl font-semibold text-gray-800 dark:text-white mt-16 sm:mt-32 text-center">
-              Oops! Looks like you&apos;re on a coin diet. No favorites yet! 
-              <br />
-              Start adding your favorite coins and make them rich!
+              Oops! Looks like you&apos;re on a coin diet. No favorites yet!          
+            </p>
+            <p className="text-lg sm:text-xl -translate-y-5 font-semibold text-gray-800 dark:text-slate-300 mt-16 sm:mt-32 text-center">
+            Start adding your favorite coins and make them rich!
             </p>
           </div>
         ) : (
           <>
-            
             <div className="text-center my-8 mt-24">
               <Image src="/fav/nothing.jpg" alt="nothing img" layout="fill" />
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-500 to-black dark:from-blue-500 dark:to-white bg-clip-text text-transparent">
