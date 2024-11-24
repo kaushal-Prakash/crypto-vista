@@ -130,7 +130,7 @@ function ExchangesPage() {
             placeholder="Search exchanges..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="p-3 border rounded w-full sm:w-[200px] md:w-[300px] mb-4"
+            className="px-6 py-3 border rounded-full w-full sm:w-[200px] md:w-[300px] mb-4 focus:ring-blue-500"
           />
           {/* Sorting options */}
           <div className="w-full sm:w-[200px] md:w-[250px] sm:-translate-y-2">
