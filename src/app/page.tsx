@@ -134,22 +134,24 @@ export default function Home() {
 
           {/* Hero Section */}
           <section
-            className="relative flex flex-col min-h-screen items-center justify-center text-center py-20 px-4 text-white "
+            className="relative flex flex-col min-h-screen items-center justify-center text-center py-20 px-4 text-white"
             style={{ textShadow: "5px 2px 10px black" }}
           >
+            <div className="absolute inset-0 bg-black opacity-30"></div>{" "}
             <h1 className="text-5xl md:text-7xl font-bold mb-6 hero-content">
               Welcome to <span className="text-blue-500">Crypto</span>Vista
             </h1>
-            <p className="text-xl md:text-2xl font-semibold max-w-3xl mx-auto mb-8 hero-content">
+            {/* Slight overlay */}
+            <p className="text-xl md:text-2xl font-semibold max-w-3xl mx-auto mb-8 hero-content relative z-20">
               Your ultimate destination for tracking cryptocurrencies, analyzing
               market trends, and making informed decisions.
             </p>
             <Link
               href="/home"
-              className={`py-3 px-8 hero-content rounded-lg text-lg shadow-lg font-semibold transform-gpu transition duration-300 ease-in-out hover:scale-105 ${
+              className={`py-3 px-8 hero-content rounded-lg text-lg font-semibold transform-gpu transition duration-300 ease-in-out hover:scale-105 relative z-20 ${
                 theme === "dark"
-                  ? "bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-700 hover:via-indigo-700 hover:to-blue-700 text-white shadow-purple-800/50"
-                  : "bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:from-purple-600 hover:via-pink-600 hover:to-red-600 text-white shadow-pink-500/50"
+                  ? "bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-700 hover:via-indigo-700 hover:to-blue-700 text-white shadow-lg shadow-purple-800/50"
+                  : "bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:from-purple-600 hover:via-pink-600 hover:to-red-600 text-white shadow-lg shadow-pink-500/50"
               }`}
             >
               Get Started
