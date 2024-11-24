@@ -41,7 +41,7 @@ function AboutPage() {
               provide a user-friendly platform that makes navigating the crypto
               world easier and more accessible for everyone.
             </p>
-            <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 mt-2 sm:mt-4">
+            <p className="hidden sm:block text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 mt-2 sm:mt-4">
               CryptoVista features real-time price tracking, customizable
               watchlists, and insightful market analysis, all designed to help
               you stay ahead in the fast-paced crypto market.
