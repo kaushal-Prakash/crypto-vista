@@ -107,7 +107,7 @@ function ExchangesPage() {
       {/* Main Content */}
       <div className="relative z-20">
         <h1 className="text-2xl md:text-4xl pt-24 w-full text-center font-bold mb-4">
-          Cryptocurrency Exchanges
+          <span className="text-blue-500">Cryptocurrency</span> Exchanges
         </h1>
 
         <div className="mb-4 flex gap-4 flex-wrap justify-center items-center">

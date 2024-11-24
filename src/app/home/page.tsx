@@ -189,8 +189,9 @@ const CoinList: React.FC = () => {
             <div className="mt-16 sm:mt-24 flex flex-col justify-between z-10 relative w-full max-w-screen-2xl mx-auto">
               <div className="w-full mb-2 h-fit">
                 <div className="w-full flex justify-center">
-                  <h1 className="text-3xl sm:text-5xl mb-5 lg:text-6xl font-extrabold bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-transparent bg-clip-text">
-                    Crypto Currencies !
+                  <h1 className="text-2xl md:text-4xl pt-5 w-full text-center font-bold mb-4">
+                    <span className="text-blue-500">Cryptocurrency</span>{" "}
+                    Exchanges
                   </h1>
                 </div>
 
