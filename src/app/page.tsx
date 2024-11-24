@@ -260,7 +260,7 @@ export default function Home() {
                   : "bg-gray-300 hover:bg-gray-400 text-gray-900"
               }`}
             >
-              Visit Now
+              Check out now !
             </Link>
           </section>
         </div>
