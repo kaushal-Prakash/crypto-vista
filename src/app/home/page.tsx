@@ -142,7 +142,7 @@ const CoinList: React.FC = () => {
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="absolute w-full min-h-screen inset-0 backdrop-blur-sm"></div>
-  
+
       <div className="z-5 relative w-full p-5 flex flex-col items-center justify-center min-h-screen">
         {coins.length === 0 ? (
           <div className="flex justify-center items-center min-h-screen">
@@ -222,21 +222,23 @@ const CoinList: React.FC = () => {
               </div>
 
               {/* Coin List */}
-              <div className="grid w-full min-h-fit grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-3 md:gap-5 lg:gap-10 p-5 max-w-screen-2xl mx-auto">
-                {sortedCoins.map((coin) => (
-                  <CurrencyCard
-                    id={coin.id}
-                    img={coin.image}
-                    key={coin.id}
-                    name={coin.name}
-                    symbol={coin.symbol}
-                    currentPrice={coin.current_price}
-                    priceChange24hr={coin.price_change_percentage_24h}
-                    currency={selectedCurrency}
-                    isFavorite={favorites.includes(coin.id)}
-                    onFavoriteToggle={() => toggleFavorite(coin.id)}
-                  />
-                ))}
+              <div className="w-full min-h-screen">
+                <div className="grid w-full min-h-fit grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-3 md:gap-5 lg:gap-10 p-5 max-w-screen-2xl mx-auto">
+                  {sortedCoins.map((coin) => (
+                    <CurrencyCard
+                      id={coin.id}
+                      img={coin.image}
+                      key={coin.id}
+                      name={coin.name}
+                      symbol={coin.symbol}
+                      currentPrice={coin.current_price}
+                      priceChange24hr={coin.price_change_percentage_24h}
+                      currency={selectedCurrency}
+                      isFavorite={favorites.includes(coin.id)}
+                      onFavoriteToggle={() => toggleFavorite(coin.id)}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </>
