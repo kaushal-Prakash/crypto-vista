@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useTheme } from "next-themes";
@@ -15,6 +13,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 interface Cryptocurrency {
   market_cap: number;
@@ -43,6 +49,9 @@ const CoinList: React.FC = () => {
   const [backgroundImage, setBackgroundImage] =
     useState<string>("/bg/home-dark.jpg");
 
+  const itemsPerPage = 17; // max items per page
+  const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(() => {
     setBackgroundImage(
       theme === "light" ? "/bg/home-light.jpg" : "/bg/home-dark.jpg"
@@ -66,6 +75,7 @@ const CoinList: React.FC = () => {
           }
         );
         setCoins(response.data);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         toast.error("Error fetching the coin list");
       }
@@ -85,6 +95,7 @@ const CoinList: React.FC = () => {
           value: currency,
         }));
         setCurrencies(formattedCurrencies);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         toast.error("Error fetching currencies!");
       }
@@ -109,6 +120,7 @@ const CoinList: React.FC = () => {
   const sortedCoins = React.useMemo(() => {
     let filteredCoins = coins;
 
+    // Apply search query first
     if (searchQuery.trim() !== "") {
       filteredCoins = coins.filter((coin) =>
         coin.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -117,6 +129,7 @@ const CoinList: React.FC = () => {
 
     if (!sortOrder) return filteredCoins;
 
+    // Apply sorting
     return [...filteredCoins].sort((a, b) => {
       switch (sortOrder) {
         case "market-cap-asc":
@@ -136,6 +149,28 @@ const CoinList: React.FC = () => {
       }
     });
   }, [coins, sortOrder, searchQuery]);
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+
+  // Paginated coins are based on the sorted and filtered list
+  const currentCoins = sortedCoins.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Calculate the total number of pages based on filtered coins
+  const totalPages = Math.ceil(sortedCoins.length / itemsPerPage);
+
+  // Change page
+  const paginate = (pageNumber: number) => {
+    // Prevent navigating out of bounds
+    if (pageNumber < 1 || pageNumber > totalPages) return;
+    setCurrentPage(pageNumber);
+  };
+
+  // Reset currentPage when searchQuery changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   return (
     <div
@@ -225,7 +260,7 @@ const CoinList: React.FC = () => {
               {/* Coin List */}
               <div className="w-full min-h-screen">
                 <div className="grid w-full min-h-fit grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-3 md:gap-5 lg:gap-10 p-5 max-w-screen-2xl mx-auto">
-                  {sortedCoins.map((coin) => (
+                  {currentCoins.map((coin) => (
                     <CurrencyCard
                       id={coin.id}
                       img={coin.image}
@@ -240,6 +275,36 @@ const CoinList: React.FC = () => {
                     />
                   ))}
                 </div>
+                {/* Pagination Controls */}
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        href="#"
+                        onClick={() => paginate(currentPage - 1)}
+                        aria-disabled={currentPage === 1}
+                      />
+                    </PaginationItem>
+                    {[...Array(totalPages)].map((_, index) => (
+                      <PaginationItem key={index}>
+                        <PaginationLink
+                          href="#"
+                          onClick={() => paginate(index + 1)}
+                          className={currentPage === index + 1 ? "active" : ""}
+                        >
+                          {index + 1}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+                    <PaginationItem>
+                      <PaginationNext
+                        href="#"
+                        onClick={() => paginate(currentPage + 1)}
+                        aria-disabled={currentPage === totalPages}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
               </div>
             </div>
           </>
